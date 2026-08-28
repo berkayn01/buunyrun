@@ -1,0 +1,2996 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<title>💗 Our Little World</title>
+
+<style>
+
+/* =====================================================
+   GENEL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
+
+    background: #fff0f6;
+}
+
+body {
+    touch-action: manipulation;
+}
+
+
+/* =====================================================
+   UYGULAMA
+===================================================== */
+
+#app {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   ANA MENÜ
+===================================================== */
+
+#home {
+    position: absolute;
+    inset: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding:
+        calc(30px + env(safe-area-inset-top))
+        18px
+        calc(30px + env(safe-area-inset-bottom));
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff5fa 0%,
+            #ffe5ef 55%,
+            #ffd3e3 100%
+        );
+}
+
+
+/* Üst başlık */
+
+.homeHeader {
+    text-align: center;
+    padding-top: 15px;
+    margin-bottom: 25px;
+}
+
+.homeHeart {
+    font-size: 38px;
+    animation: heartFloat 2s infinite ease-in-out;
+}
+
+@keyframes heartFloat {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
+}
+
+.homeTitle {
+
+    margin-top: 5px;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 34px;
+    color: #e85d92;
+
+    text-shadow:
+        0 3px white;
+
+}
+
+.homeSubtitle {
+
+    margin-top: 8px;
+
+    color: #a86680;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   KARTLAR
+===================================================== */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+
+    max-width: 500px;
+
+    margin:
+        0 auto;
+
+}
+
+
+.appCard {
+
+    position: relative;
+
+    min-height: 165px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    padding: 20px 13px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        rgba(255,255,255,.86);
+
+    box-shadow:
+        0 8px 25px
+        rgba(190,80,120,.13);
+
+    color: #9b5d76;
+
+    transition:
+        transform .15s;
+
+}
+
+
+.appCard:active {
+
+    transform:
+        scale(.96);
+
+}
+
+
+.cardIcon {
+
+    font-size: 48px;
+
+    margin-bottom: 9px;
+
+}
+
+
+.cardTitle {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #e45e91;
+
+}
+
+
+.cardDescription {
+
+    font-size: 12px;
+
+    margin-top: 5px;
+
+    line-height: 1.35;
+
+}
+
+
+.cardArrow {
+
+    position: absolute;
+
+    right: 13px;
+    bottom: 12px;
+
+    color: #e879a1;
+
+}
+
+
+/* Yapım aşaması */
+
+.locked {
+
+    opacity: .78;
+
+    background:
+        rgba(255,255,255,.63);
+
+}
+
+
+.locked .cardTitle {
+
+    color: #b98599;
+
+}
+
+
+.comingSoon {
+
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    color: #e2779d;
+
+    background: #ffe2ed;
+
+    padding: 4px 8px;
+
+    border-radius: 20px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.homeFooter {
+
+    text-align: center;
+
+    margin-top: 27px;
+
+    color: #b2768d;
+
+    font-size: 12px;
+
+}
+
+
+/* =====================================================
+   SAYFA SİSTEMİ
+===================================================== */
+
+.page {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+}
+
+
+.page.active {
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   BÖLÜM ÜST BAR
+===================================================== */
+
+.pageTop {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height:
+        calc(70px + env(safe-area-inset-top));
+
+    padding:
+        calc(15px + env(safe-area-inset-top))
+        15px
+        10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    z-index: 500;
+
+}
+
+
+.backButton {
+
+    border: none;
+
+    background:
+        rgba(255,255,255,.9);
+
+    color: #e55f91;
+
+    font-size: 17px;
+
+    width: 43px;
+    height: 43px;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
+
+}
+
+
+.pageTitle {
+
+    font-family:
+        Georgia,
+        serif;
+
+    color: #e55f91;
+
+    font-size: 23px;
+
+    background:
+        rgba(255,255,255,.88);
+
+    padding: 8px 17px;
+
+    border-radius: 25px;
+
+}
+
+
+/* =====================================================
+   YAPIM AŞAMASI SAYFASI
+===================================================== */
+
+#comingPage {
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff4f9,
+            #ffdce9
+        );
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+#comingPage.active {
+
+    display: flex;
+
+}
+
+
+.comingBox {
+
+    width: calc(100% - 40px);
+
+    max-width: 400px;
+
+    background:
+        rgba(255,255,255,.9);
+
+    padding: 38px 25px;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(180,70,110,.12);
+
+}
+
+
+.comingIcon {
+
+    font-size: 70px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.comingBox h2 {
+
+    color: #e45e91;
+
+    font-family: Georgia, serif;
+
+    font-size: 27px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.comingBox p {
+
+    color: #a76b82;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =====================================================
+   BUNNY RUN
+===================================================== */
+
+#bunnyPage {
+
+    background:
+        linear-gradient(
+            #9cdefb 0%,
+            #dff8ff 64%,
+            #9ad66e 64%,
+            #75c653 100%
+        );
+
+    overflow: hidden;
+
+}
+
+
+/* =====================================================
+   SKOR
+===================================================== */
+
+#score {
+
+    position: absolute;
+
+    top:
+        calc(82px + env(safe-area-inset-top));
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 50;
+
+    background:
+        rgba(255,255,255,.94);
+
+    color: #ed6297;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    padding: 9px 19px;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
+
+}
+
+
+#time {
+
+    position: absolute;
+
+    top:
+        calc(82px + env(safe-area-inset-top));
+
+    left: 15px;
+
+    z-index: 50;
+
+    background:
+        rgba(255,255,255,.90);
+
+    color: #a85d78;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+}
+
+
+/* =====================================================
+   MESAJ
+===================================================== */
+
+#message {
+
+    position: absolute;
+
+    top:
+        calc(135px + env(safe-area-inset-top));
+
+    left: 50%;
+
+    transform:
+        translateX(-50%)
+        translateY(-10px);
+
+    z-index: 60;
+
+    background:
+        rgba(255,255,255,.96);
+
+    color: #ed6297;
+
+    padding: 10px 17px;
+
+    border-radius: 25px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .3s,
+        transform .3s;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.08);
+
+}
+
+
+#message.show {
+
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+}
+
+
+/* =====================================================
+   BULUTLAR
+===================================================== */
+
+.cloud {
+
+    position: absolute;
+
+    width: 100px;
+    height: 32px;
+
+    background: white;
+
+    border-radius: 40px;
+
+    opacity: .75;
+
+    will-change:
+        transform;
+
+}
+
+
+.cloud::before,
+.cloud::after {
+
+    content: "";
+
+    position: absolute;
+
+    background: white;
+
+    border-radius: 50%;
+
+}
+
+
+.cloud::before {
+
+    width: 42px;
+    height: 42px;
+
+    left: 15px;
+    top: -20px;
+
+}
+
+
+.cloud::after {
+
+    width: 50px;
+    height: 50px;
+
+    right: 10px;
+    top: -28px;
+
+}
+
+
+#cloud1 {
+
+    top: 20%;
+    left: 5%;
+
+}
+
+
+#cloud2 {
+
+    top: 34%;
+    left: 70%;
+
+}
+
+
+/* =====================================================
+   TAVŞAN
+===================================================== */
+
+#bunny {
+
+    position: absolute;
+
+    width: 78px;
+    height: 78px;
+
+    left: 55px;
+
+    bottom: 100px;
+
+    z-index: 20;
+
+    will-change:
+        bottom,
+        transform;
+
+}
+
+
+/* Kulak */
+
+.bunnyEar {
+
+    position: absolute;
+
+    width: 20px;
+    height: 55px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #fffafa
+        );
+
+    border-radius:
+        55% 55% 45% 45%;
+
+    top: -29px;
+
+    z-index: 1;
+
+    box-shadow:
+        0 3px 5px
+        rgba(100,60,80,.12);
+
+}
+
+
+.bunnyEar::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 10px;
+    height: 39px;
+
+    left: 5px;
+    top: 7px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffbfd2,
+            #ffabc4
+        );
+
+}
+
+
+.bunnyEar.left {
+
+    left: 18px;
+
+    transform:
+        rotate(-9deg);
+
+}
+
+
+.bunnyEar.right {
+
+    right: 8px;
+
+    transform:
+        rotate(9deg);
+
+}
+
+
+/* Kafa */
+
+.bunnyHead {
+
+    position: absolute;
+
+    width: 61px;
+    height: 55px;
+
+    background:
+        radial-gradient(
+            circle at 32% 25%,
+            #fff,
+            #fffafa 68%,
+            #eee0e5
+        );
+
+    border-radius:
+        48% 48% 45% 45%;
+
+    left: 9px;
+    top: 8px;
+
+    z-index: 5;
+
+    box-shadow:
+        0 5px 0 #e6ccd5,
+        0 8px 13px
+        rgba(80,50,60,.10);
+
+}
+
+
+/* Göz */
+
+.bunnyEye {
+
+    position: absolute;
+
+    width: 7px;
+    height: 9px;
+
+    background: #3b3237;
+
+    border-radius: 50%;
+
+    top: 22px;
+
+    z-index: 8;
+
+}
+
+
+.bunnyEye::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 2px;
+    height: 2px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    left: 2px;
+    top: 1px;
+
+}
+
+
+.bunnyEye.left {
+    left: 15px;
+}
+
+
+.bunnyEye.right {
+    right: 15px;
+}
+
+
+/* =====================================================
+   YANAKLAR
+===================================================== */
+
+.bunnyCheek {
+
+    position: absolute;
+
+    width: 22px;
+    height: 13px;
+
+    background:
+        radial-gradient(
+            ellipse,
+            #ff7fa6 0%,
+            #ff9fba 55%,
+            rgba(255,168,192,.15) 100%
+        );
+
+    border-radius: 50%;
+
+    top: 31px;
+
+    z-index: 9;
+
+    opacity: 1;
+
+    box-shadow:
+        0 2px 6px
+        rgba(255,80,140,.18);
+
+}
+
+
+.bunnyCheek.left {
+    left: -1px;
+}
+
+
+.bunnyCheek.right {
+    right: -1px;
+}
+
+
+/* Burun */
+
+.bunnyNose {
+
+    position: absolute;
+
+    width: 8px;
+    height: 6px;
+
+    background: #e9789c;
+
+    border-radius:
+        50% 50% 60% 60%;
+
+    left: 26px;
+    top: 31px;
+
+    z-index: 10;
+
+}
+
+
+.bunnyNose::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+    height: 7px;
+
+    left: -2px;
+    top: 5px;
+
+    border-bottom:
+        2px solid #986273;
+
+    border-radius: 50%;
+
+}
+
+
+/* Gövde */
+
+.bunnyBody {
+
+    position: absolute;
+
+    width: 62px;
+    height: 47px;
+
+    left: 5px;
+
+    bottom: 0;
+
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #fff,
+            #fffafa 70%,
+            #eadde2
+        );
+
+    border-radius:
+        48% 48% 45% 45%;
+
+    z-index: 3;
+
+    box-shadow:
+        0 5px 0 #e3cbd4,
+        0 8px 12px
+        rgba(70,50,60,.10);
+
+}
+
+
+/* Patiler */
+
+.paw {
+
+    position: absolute;
+
+    width: 22px;
+    height: 27px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff,
+            #f1e4e8
+        );
+
+    border-radius:
+        50% 50% 45% 45%;
+
+    bottom: 4px;
+
+    z-index: 8;
+
+}
+
+
+.paw.left {
+
+    left: 12px;
+
+    transform:
+        rotate(15deg);
+
+}
+
+
+.paw.right {
+
+    right: 12px;
+
+    transform:
+        rotate(-15deg);
+
+}
+
+
+/* Kuyruk */
+
+.tail {
+
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            white,
+            #eee1e6
+        );
+
+    border-radius: 50%;
+
+    left: -6px;
+    bottom: 16px;
+
+    z-index: 2;
+
+}
+
+
+/* Fiyonk */
+
+.bunnyBow {
+
+    position: absolute;
+
+    width: 25px;
+    height: 17px;
+
+    background: #ff72a8;
+
+    border-radius: 50%;
+
+    right: 3px;
+    top: 5px;
+
+    transform:
+        rotate(18deg);
+
+    z-index: 30;
+
+}
+
+
+.bunnyBow::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #f64f91;
+
+    left: 9px;
+    top: 4px;
+
+}
+
+
+/* =====================================================
+   NESNELER
+===================================================== */
+
+.item {
+
+    position: absolute;
+
+    z-index: 10;
+
+    font-size: 34px;
+
+    will-change: left;
+
+}
+
+
+.carrot {
+
+    animation:
+        rotate .6s infinite alternate;
+
+}
+
+
+.heart {
+
+    animation:
+        float .5s infinite alternate;
+
+}
+
+
+.star {
+
+    animation:
+        spin 1s infinite linear;
+
+}
+
+
+@keyframes rotate {
+
+    from {
+        transform: rotate(-10deg);
+    }
+
+    to {
+        transform: rotate(10deg);
+    }
+
+}
+
+
+@keyframes float {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-8px);
+    }
+
+}
+
+
+@keyframes spin {
+
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* Engel */
+
+.obstacle {
+
+    position: absolute;
+
+    width: 42px;
+    height: 47px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #825439,
+            #9c6745,
+            #754a32
+        );
+
+    border-radius:
+        10px 10px 5px 5px;
+
+    z-index: 10;
+
+}
+
+
+.obstacle::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 54px;
+    height: 17px;
+
+    background: #69b957;
+
+    border-radius: 50%;
+
+    left: -6px;
+    top: -8px;
+
+}
+
+
+/* Puan */
+
+.pop {
+
+    position: absolute;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #ed6297;
+
+    animation:
+        popUp .7s forwards;
+
+}
+
+
+@keyframes popUp {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translateY(-55px)
+            scale(1.3);
+
+    }
+
+}
+
+
+/* =====================================================
+   GAME OVER
+===================================================== */
+
+#gameOver {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        rgba(75,35,65,.68);
+
+    z-index: 200;
+
+    color: white;
+
+}
+
+
+#gameOver h2 {
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 40px;
+
+    margin-bottom: 10px;
+
+}
+
+
+#finalScore {
+
+    font-size: 23px;
+
+    margin-bottom: 8px;
+
+}
+
+
+#recordText {
+
+    color: #ffd4e7;
+
+    font-size: 16px;
+
+    margin-bottom: 25px;
+
+}
+
+
+#restart {
+
+    border: none;
+
+    background: #ff6fa8;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    padding: 15px 40px;
+
+    border-radius: 40px;
+
+}
+
+
+/* =====================================================
+   MOBİL AYAR
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .cards {
+        gap: 10px;
+    }
+
+    .appCard {
+        min-height: 150px;
+    }
+
+    .cardIcon {
+        font-size: 42px;
+    }
+
+    .cardTitle {
+        font-size: 16px;
+    }
+
+}
+
+
+</style>
+</head>
+
+
+<body>
+
+<div id="app">
+
+
+<!-- =====================================================
+     ANA SAYFA
+===================================================== -->
+
+<section id="home">
+
+    <div class="homeHeader">
+
+        <div class="homeHeart">
+            💗
+        </div>
+
+        <h1 class="homeTitle">
+            Our Little World
+        </h1>
+
+        <p class="homeSubtitle">
+            İkimizin küçük dünyası 🌸
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- BUNNY RUN -->
+
+        <button
+            class="appCard"
+            onclick="openBunny()">
+
+            <div class="cardIcon">
+                🐰
+            </div>
+
+            <div class="cardTitle">
+                Bunny Run
+            </div>
+
+            <div class="cardDescription">
+                Tavşanı koştur,<br>
+                puanları topla! 💗
+            </div>
+
+            <div class="cardArrow">
+                →
+            </div>
+
+        </button>
+
+
+        <!-- SEVGİ KARTLARI -->
+
+        <button
+            class="appCard locked"
+            onclick="openComing(
+                '💌',
+                'Sevgi Kartları',
+                'Birbirimize söylemek istediğimiz güzel şeyler burada olacak. 💗'
+            )">
+
+            <div class="cardIcon">
+                💌
+            </div>
+
+            <div class="cardTitle">
+                Sevgi Kartları
+            </div>
+
+            <div class="cardDescription">
+                Küçük sürprizler<br>
+                ve güzel sözler 💕
+            </div>
+
+            <div class="comingSoon">
+                YAPIM AŞAMASINDA
+            </div>
+
+        </button>
+
+
+        <!-- TABU -->
+
+        <button
+            class="appCard locked"
+            onclick="openComing(
+                '🎲',
+                'Tabu',
+                'Beraber oynayacağımız kendi küçük Tabu oyunumuz hazırlanıyor! 😎💕'
+            )">
+
+            <div class="cardIcon">
+                🎲
+            </div>
+
+            <div class="cardTitle">
+                Tabu
+            </div>
+
+            <div class="cardDescription">
+                Birlikte oynayacağımız<br>
+                eğlenceli oyun 🎀
+            </div>
+
+            <div class="comingSoon">
+                YAPIM AŞAMASINDA
+            </div>
+
+        </button>
+
+
+        <!-- KRONOMETRE -->
+
+        <button
+            class="appCard locked"
+            onclick="openComing(
+                '⏱️',
+                'Odaklan',
+                'Birlikte ders çalışırken veya bir şeye odaklanırken kullanacağımız kronometre hazırlanıyor. 🌸'
+            )">
+
+            <div class="cardIcon">
+                ⏱️
+            </div>
+
+            <div class="cardTitle">
+                Odaklan
+            </div>
+
+            <div class="cardDescription">
+                Zamanı kontrol et,<br>
+                birlikte odaklan 🌷
+            </div>
+
+            <div class="comingSoon">
+                YAPIM AŞAMASINDA
+            </div>
+
+        </button>
+
+
+    </div>
+
+
+    <div class="homeFooter">
+        Senin için yaptığım küçük bir dünya 💗
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     YAPIM AŞAMASI
+===================================================== -->
+
+<section
+    id="comingPage"
+    class="page">
+
+    <div class="pageTop">
+
+        <button
+            class="backButton"
+            onclick="goHome()">
+            ←
+        </button>
+
+        <div
+            class="pageTitle"
+            id="comingTitle">
+            Yakında
+        </div>
+
+        <div style="width:43px;"></div>
+
+    </div>
+
+
+    <div class="comingBox">
+
+        <div
+            class="comingIcon"
+            id="comingIcon">
+            💗
+        </div>
+
+        <h2>
+            Biraz Bekleee 🥹
+        </h2>
+
+        <p id="comingText">
+            Bu bölüm çok yakında burada olacak.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BUNNY RUN
+===================================================== -->
+
+<section
+    id="bunnyPage"
+    class="page">
+
+
+    <div class="pageTop">
+
+        <button
+            class="backButton"
+            onclick="leaveBunny()">
+            ←
+        </button>
+
+        <div class="pageTitle">
+            🐰 Bunny Run
+        </div>
+
+        <div style="width:43px;"></div>
+
+    </div>
+
+
+    <div id="score">
+        Skor: 0
+    </div>
+
+
+    <div id="time">
+        ⏱️ 0 sn
+    </div>
+
+
+    <div id="message"></div>
+
+
+    <div class="cloud" id="cloud1"></div>
+
+    <div class="cloud" id="cloud2"></div>
+
+
+
+    <!-- TAVŞAN -->
+
+    <div id="bunny">
+
+        <div class="bunnyEar left"></div>
+
+        <div class="bunnyEar right"></div>
+
+
+        <div class="bunnyHead">
+
+            <div class="bunnyEye left"></div>
+
+            <div class="bunnyEye right"></div>
+
+            <div class="bunnyCheek left"></div>
+
+            <div class="bunnyCheek right"></div>
+
+            <div class="bunnyNose"></div>
+
+        </div>
+
+
+        <div class="bunnyBody"></div>
+
+
+        <div class="paw left"></div>
+
+        <div class="paw right"></div>
+
+
+        <div class="tail"></div>
+
+
+        <div class="bunnyBow"></div>
+
+    </div>
+
+
+
+    <!-- GAME OVER -->
+
+    <div id="gameOver">
+
+        <h2>
+            Oyun Bitti 🥺
+        </h2>
+
+        <div id="finalScore">
+            Skor: 0
+        </div>
+
+        <div id="recordText">
+            🏆 Rekor: 0
+        </div>
+
+        <button id="restart">
+            TEKRAR OYNA 🐰
+        </button>
+
+    </div>
+
+
+</section>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   SAYFALAR
+===================================================== */
+
+const home =
+    document.getElementById("home");
+
+const bunnyPage =
+    document.getElementById("bunnyPage");
+
+const comingPage =
+    document.getElementById("comingPage");
+
+
+function openBunny() {
+
+    home.style.display = "none";
+
+    comingPage.classList.remove("active");
+
+    bunnyPage.classList.add("active");
+
+    startGame();
+
+}
+
+
+function goHome() {
+
+    running = false;
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+    bunnyPage.classList.remove(
+        "active"
+    );
+
+    comingPage.classList.remove(
+        "active"
+    );
+
+    home.style.display = "block";
+
+}
+
+
+function leaveBunny() {
+
+    running = false;
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+    bunnyPage.classList.remove(
+        "active"
+    );
+
+    home.style.display = "block";
+
+}
+
+
+function openComing(
+    icon,
+    title,
+    text
+) {
+
+    home.style.display = "none";
+
+    bunnyPage.classList.remove(
+        "active"
+    );
+
+    comingPage.classList.add(
+        "active"
+    );
+
+    document.getElementById(
+        "comingIcon"
+    ).textContent = icon;
+
+    document.getElementById(
+        "comingTitle"
+    ).textContent = title;
+
+    document.getElementById(
+        "comingText"
+    ).textContent = text;
+
+}
+
+
+/* =====================================================
+   ELEMENTLER
+===================================================== */
+
+const bunny =
+    document.getElementById("bunny");
+
+const scoreText =
+    document.getElementById("score");
+
+const timeText =
+    document.getElementById("time");
+
+const gameOver =
+    document.getElementById("gameOver");
+
+const finalScoreElement =
+    document.getElementById("finalScore");
+
+const recordText =
+    document.getElementById("recordText");
+
+const message =
+    document.getElementById("message");
+
+const cloud1 =
+    document.getElementById("cloud1");
+
+const cloud2 =
+    document.getElementById("cloud2");
+
+
+/* =====================================================
+   TAVŞAN FİZİĞİ
+===================================================== */
+
+const gravity = 2800;
+
+const jumpPower = 850;
+
+let bunnyY = 0;
+
+let velocity = 0;
+
+let isJumping = false;
+
+
+/* =====================================================
+   OYUN
+===================================================== */
+
+let running = false;
+
+let gameTime = 0;
+
+
+/* =====================================================
+   HIZ
+===================================================== */
+
+const speedLevels = [
+
+    {
+        time: 0,
+        speed: 520
+    },
+
+    {
+        time: 7,
+        speed: 600
+    },
+
+    {
+        time: 15,
+        speed: 690
+    },
+
+    {
+        time: 25,
+        speed: 780
+    },
+
+    {
+        time: 38,
+        speed: 870
+    },
+
+    {
+        time: 53,
+        speed: 960
+    },
+
+    {
+        time: 70,
+        speed: 1050
+    },
+
+    {
+        time: 90,
+        speed: 1140
+    }
+
+];
+
+
+let speed = 520;
+
+let currentSpeedLevel = 0;
+
+
+/* =====================================================
+   SKOR
+===================================================== */
+
+let score = 0;
+
+const scoreRate = 1.5;
+
+
+/* =====================================================
+   NESNELER
+===================================================== */
+
+let objects = [];
+
+let spawnTimer = 0;
+
+
+/* =====================================================
+   FRAME
+===================================================== */
+
+let animationFrame;
+
+let lastTime = 0;
+
+
+/* =====================================================
+   BULUT
+===================================================== */
+
+let cloudX = 0;
+
+
+/* =====================================================
+   MESAJLAR
+===================================================== */
+
+let shownMessages = {};
+
+
+const messages = [
+
+    {
+        score: 100,
+        text:
+            "Çok güzel gidiyorsun! 💗"
+    },
+
+    {
+        score: 300,
+        text:
+            "Tavşanın yanakları senden ilham aldı 🐰💕"
+    },
+
+    {
+        score: 500,
+        text:
+            "Böyle devam et! 🌸"
+    },
+
+    {
+        score: 1000,
+        text:
+            "Bu kadar tatlı olmak hile sayılır mı? 🥹💗"
+    },
+
+    {
+        score: 2000,
+        text:
+            "Senin için biraz daha koşacak! 🐰💨"
+    },
+
+    {
+        score: 3000,
+        text:
+            "Tavşan bile yoruldu 😂💕"
+    },
+
+    {
+        score: 5000,
+        text:
+            "🏆 İnanılmazsın! 💗"
+    }
+
+];
+
+
+const speedMessages = [
+
+    "💨 Biraz hızlandık!",
+
+    "🐰💨 Tempo yükseliyor!",
+
+    "⚡ Artık biraz daha dikkat!",
+
+    "🔥 Şimdi işler ciddileşti!",
+
+    "🚀 Tavşan roket gibi gidiyor!",
+
+    "💗 DURMA! ÇOK İYİ GİDİYORSUN!",
+
+    "🐰🔥 ARTIK GERİ DÖNÜŞ YOK!"
+
+];
+
+
+/* =====================================================
+   REKOR
+===================================================== */
+
+let bestScore =
+    Number(
+        localStorage.getItem(
+            "bunnyBest"
+        )
+    ) || 0;
+
+
+/* =====================================================
+   MESAJ
+===================================================== */
+
+function showMessage(text) {
+
+    message.textContent = text;
+
+    message.classList.add("show");
+
+    setTimeout(
+        function() {
+
+            message.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+/* =====================================================
+   SKOR MESAJLARI
+===================================================== */
+
+function checkMessages() {
+
+    const currentScore =
+        Math.floor(score);
+
+    messages.forEach(
+        function(msg) {
+
+            if (
+
+                currentScore >=
+                msg.score &&
+
+                !shownMessages[
+                    msg.score
+                ]
+
+            ) {
+
+                shownMessages[
+                    msg.score
+                ] = true;
+
+                showMessage(
+                    msg.text
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   HIZ
+===================================================== */
+
+function updateSpeed(delta) {
+
+    let targetSpeed =
+        speedLevels[0].speed;
+
+    let newLevel = 0;
+
+
+    for (
+        let i = 0;
+        i < speedLevels.length;
+        i++
+    ) {
+
+        if (
+            gameTime >=
+            speedLevels[i].time
+        ) {
+
+            targetSpeed =
+                speedLevels[i].speed;
+
+            newLevel = i;
+
+        }
+
+    }
+
+
+    if (
+        newLevel >
+        currentSpeedLevel
+    ) {
+
+        currentSpeedLevel =
+            newLevel;
+
+
+        const messageIndex =
+            Math.min(
+                newLevel - 1,
+                speedMessages.length - 1
+            );
+
+
+        showMessage(
+            speedMessages[
+                messageIndex
+            ]
+        );
+
+    }
+
+
+    const difference =
+        targetSpeed -
+        speed;
+
+
+    speed +=
+        difference *
+        Math.min(
+            delta * 5,
+            1
+        );
+
+}
+
+
+/* =====================================================
+   OYUNU BAŞLAT
+===================================================== */
+
+function startGame() {
+
+    gameOver.style.display =
+        "none";
+
+
+    score = 0;
+
+    gameTime = 0;
+
+    speed = 520;
+
+    currentSpeedLevel = 0;
+
+    bunnyY = 0;
+
+    velocity = 0;
+
+    isJumping = false;
+
+    shownMessages = {};
+
+    cloudX = 0;
+
+    spawnTimer = 0;
+
+
+    bunny.style.bottom =
+        "100px";
+
+    bunny.style.transform =
+        "rotate(0deg) scale(1)";
+
+
+    scoreText.textContent =
+        "Skor: 0";
+
+
+    timeText.textContent =
+        "⏱️ 0 sn";
+
+
+    message.classList.remove(
+        "show"
+    );
+
+
+    objects.forEach(
+        obj => obj.remove()
+    );
+
+
+    objects = [];
+
+
+    running = true;
+
+
+    lastTime =
+        performance.now();
+
+
+    animationFrame =
+        requestAnimationFrame(
+            update
+        );
+
+}
+
+
+/* =====================================================
+   ZIPLAMA
+===================================================== */
+
+function jump() {
+
+    if (!running)
+        return;
+
+
+    if (
+        !isJumping &&
+        bunnyY <= 1
+    ) {
+
+        velocity =
+            jumpPower;
+
+        isJumping =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   NESNE
+===================================================== */
+
+function spawnObject() {
+
+    if (!running)
+        return;
+
+
+    const random =
+        Math.random();
+
+    let object;
+
+
+    if (
+        random < .40
+    ) {
+
+        object =
+            document.createElement(
+                "div"
+            );
+
+        object.className =
+            "item carrot";
+
+        object.textContent =
+            "🥕";
+
+    }
+
+    else if (
+        random < .68
+    ) {
+
+        object =
+            document.createElement(
+                "div"
+            );
+
+        object.className =
+            "item heart";
+
+        object.textContent =
+            "💗";
+
+    }
+
+    else if (
+        random < .78
+    ) {
+
+        object =
+            document.createElement(
+                "div"
+            );
+
+        object.className =
+            "item star";
+
+        object.textContent =
+            "⭐";
+
+    }
+
+    else {
+
+        object =
+            document.createElement(
+                "div"
+            );
+
+        object.className =
+            "obstacle";
+
+        object.dataset.passed =
+            "false";
+
+    }
+
+
+    object.style.left =
+        window.innerWidth + "px";
+
+
+    if (
+        object.classList.contains(
+            "obstacle"
+        )
+    ) {
+
+        object.style.bottom =
+            "100px";
+
+    }
+
+    else {
+
+        object.style.bottom =
+            (
+                125 +
+                Math.random() * 90
+            ) + "px";
+
+    }
+
+
+    bunnyPage.appendChild(
+        object
+    );
+
+    objects.push(
+        object
+    );
+
+}
+
+
+/* =====================================================
+   ÇARPIŞMA
+===================================================== */
+
+function collision(a, b) {
+
+    const r1 =
+        a.getBoundingClientRect();
+
+    const r2 =
+        b.getBoundingClientRect();
+
+    const padding = 7;
+
+
+    return !(
+
+        r1.right - padding <
+        r2.left ||
+
+        r1.left + padding >
+        r2.right ||
+
+        r1.bottom - padding <
+        r2.top ||
+
+        r1.top + padding >
+        r2.bottom
+
+    );
+
+}
+
+
+/* =====================================================
+   PUAN POP
+===================================================== */
+
+function createPop(
+    object,
+    text
+) {
+
+    const rect =
+        object.getBoundingClientRect();
+
+
+    const pop =
+        document.createElement(
+            "div"
+        );
+
+
+    pop.className =
+        "pop";
+
+    pop.textContent =
+        text;
+
+
+    pop.style.left =
+        rect.left + "px";
+
+    pop.style.top =
+        rect.top + "px";
+
+
+    bunnyPage.appendChild(
+        pop
+    );
+
+
+    setTimeout(
+        () => pop.remove(),
+        700
+    );
+
+}
+
+
+/* =====================================================
+   OYUN DÖNGÜSÜ
+===================================================== */
+
+function update(currentTime) {
+
+    if (!running)
+        return;
+
+
+    let delta =
+        (
+            currentTime -
+            lastTime
+        ) / 1000;
+
+
+    delta =
+        Math.min(
+            delta,
+            0.033
+        );
+
+
+    lastTime =
+        currentTime;
+
+
+    /* SÜRE */
+
+    gameTime +=
+        delta;
+
+
+    timeText.textContent =
+        "⏱️ " +
+        Math.floor(
+            gameTime
+        ) +
+        " sn";
+
+
+    /* HIZ */
+
+    updateSpeed(
+        delta
+    );
+
+
+    /* NESNE SPAWN */
+
+    const spawnInterval =
+        Math.max(
+            400,
+            780 -
+            (
+                (speed - 520) *
+                0.55
+            )
+        );
+
+
+    spawnTimer +=
+        delta * 1000;
+
+
+    if (
+        spawnTimer >=
+        spawnInterval
+    ) {
+
+        spawnTimer = 0;
+
+        spawnObject();
+
+    }
+
+
+    /* TAVŞAN */
+
+    bunnyY +=
+        velocity *
+        delta;
+
+
+    velocity -=
+        gravity *
+        delta;
+
+
+    if (
+        bunnyY <= 0
+    ) {
+
+        bunnyY = 0;
+
+        velocity = 0;
+
+        isJumping = false;
+
+    }
+
+
+    bunny.style.bottom =
+        (
+            100 +
+            bunnyY
+        ) + "px";
+
+
+    if (
+        bunnyY > 5
+    ) {
+
+        bunny.style.transform =
+            "rotate(-7deg) scale(1.04)";
+
+    }
+
+    else {
+
+        bunny.style.transform =
+            "rotate(0deg) scale(1)";
+
+    }
+
+
+    /* NESNELER */
+
+    objects.forEach(
+        function(obj, index) {
+
+            let left =
+                parseFloat(
+                    obj.style.left
+                );
+
+
+            left -=
+                speed *
+                delta;
+
+
+            obj.style.left =
+                left + "px";
+
+
+            /* TOPLANABİLİR */
+
+            if (
+
+                obj.classList.contains(
+                    "carrot"
+                )
+
+                ||
+
+                obj.classList.contains(
+                    "heart"
+                )
+
+                ||
+
+                obj.classList.contains(
+                    "star"
+                )
+
+            ) {
+
+                if (
+                    collision(
+                        bunny,
+                        obj
+                    )
+                ) {
+
+                    let points = 10;
+
+
+                    if (
+                        obj.classList.contains(
+                            "heart"
+                        )
+                    ) {
+
+                        points = 25;
+
+                    }
+
+
+                    if (
+                        obj.classList.contains(
+                            "star"
+                        )
+                    ) {
+
+                        points = 100;
+
+                    }
+
+
+                    score +=
+                        points;
+
+
+                    createPop(
+                        obj,
+                        "+" + points
+                    );
+
+
+                    obj.remove();
+
+
+                    objects.splice(
+                        index,
+                        1
+                    );
+
+
+                    return;
+
+                }
+
+            }
+
+
+            /* ENGEL */
+
+            if (
+                obj.classList.contains(
+                    "obstacle"
+                )
+            ) {
+
+                if (
+                    collision(
+                        bunny,
+                        obj
+                    )
+                ) {
+
+                    endGame();
+
+                    return;
+
+                }
+
+
+                const bunnyRect =
+                    bunny.getBoundingClientRect();
+
+                const obstacleRect =
+                    obj.getBoundingClientRect();
+
+
+                if (
+
+                    obstacleRect.right <
+                    bunnyRect.left &&
+
+                    obj.dataset.passed ===
+                    "false"
+
+                ) {
+
+                    obj.dataset.passed =
+                        "true";
+
+
+                    score +=
+                        50;
+
+
+                    createPop(
+                        obj,
+                        "+50 💗"
+                    );
+
+                }
+
+            }
+
+
+            /* TEMİZLE */
+
+            if (
+                left < -120
+            ) {
+
+                obj.remove();
+
+                objects.splice(
+                    index,
+                    1
+                );
+
+            }
+
+        }
+    );
+
+
+    /* NORMAL SKOR */
+
+    score +=
+        scoreRate *
+        delta;
+
+
+    scoreText.textContent =
+        "Skor: " +
+        Math.floor(
+            score
+        );
+
+
+    checkMessages();
+
+
+    /* BULUT */
+
+    cloudX -=
+        25 *
+        delta;
+
+
+    if (
+        cloudX < -300
+    ) {
+
+        cloudX = 0;
+
+    }
+
+
+    cloud1.style.transform =
+        `translateX(${cloudX}px)`;
+
+
+    cloud2.style.transform =
+        `translateX(${cloudX * .6}px)`;
+
+
+    animationFrame =
+        requestAnimationFrame(
+            update
+        );
+
+}
+
+
+/* =====================================================
+   GAME OVER
+===================================================== */
+
+function endGame() {
+
+    if (!running)
+        return;
+
+
+    running = false;
+
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+
+    const finalScore =
+        Math.floor(
+            score
+        );
+
+
+    let newRecord = false;
+
+
+    if (
+        finalScore >
+        bestScore
+    ) {
+
+        bestScore =
+            finalScore;
+
+        newRecord =
+            true;
+
+
+        localStorage.setItem(
+            "bunnyBest",
+            bestScore
+        );
+
+    }
+
+
+    finalScoreElement.textContent =
+        "Skor: " +
+        finalScore;
+
+
+    if (
+        newRecord
+    ) {
+
+        recordText.textContent =
+            "🎉 YENİ REKOR! 🏆 " +
+            bestScore;
+
+    }
+
+    else {
+
+        recordText.textContent =
+            "🏆 Rekor: " +
+            bestScore;
+
+    }
+
+
+    gameOver.style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+document
+    .getElementById("restart")
+    .addEventListener(
+        "click",
+        startGame
+    );
+
+
+/* =====================================================
+   TELEFON
+===================================================== */
+
+bunnyPage.addEventListener(
+
+    "touchstart",
+
+    function(e) {
+
+        if (!running)
+            return;
+
+
+        if (
+            e.target.closest(
+                ".backButton"
+            )
+        )
+            return;
+
+
+        if (
+            e.target.closest(
+                "#gameOver"
+            )
+        )
+            return;
+
+
+        jump();
+
+    },
+
+    {
+        passive: true
+    }
+
+);
+
+
+/* =====================================================
+   BİLGİSAYAR
+===================================================== */
+
+document.addEventListener(
+
+    "keydown",
+
+    function(e) {
+
+        if (
+
+            e.code === "Space" ||
+
+            e.code === "ArrowUp"
+
+        ) {
+
+            e.preventDefault();
+
+            jump();
+
+        }
+
+    }
+
+);
+
+
+</script>
+
+</body>
+</html>
